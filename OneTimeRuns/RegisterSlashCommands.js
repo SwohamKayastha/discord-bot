@@ -105,7 +105,7 @@ const commands = [
       },
       {
         name: 'event_time',
-        description: 'Time of the event (HH:mm)',
+        description: 'Time of the event (HH:mm) eg: 11:00, 23:00',
         type: ApplicationCommandOptionType.String,
         required: true,
       },

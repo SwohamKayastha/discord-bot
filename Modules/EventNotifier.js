@@ -17,7 +17,7 @@ module.exports = {
         }
 
         // Schedule the reminder (e.g., 30 minutes before the event)
-        const reminderTime = new Date(eventDateTime.getTime() - 30 * 60000);  // 30 minutes before
+        const reminderTime = new Date(eventDateTime.getTime() - 1 * 60000);  // 30 minutes before
 
         // Schedule the actual reminder
         schedule.scheduleJob(reminderTime, function() {
@@ -56,7 +56,7 @@ module.exports = {
               .setTimestamp(); // Adds a timestamp of when the message was sent
             
             // Send the embed to the specified channel
-            channel.send({ content: '@everyone', embeds: [reminderEmbed]});
+            channel.send({ content: '', embeds: [reminderEmbed]}); //@everyone
           }
 
         // Notifier message function
@@ -73,7 +73,7 @@ module.exports = {
                 .setTimestamp(); // Adds the current timestamp when the event is starting
         
             // Send the embed to the specified channel
-            channel.send({ content: '@everyone', embeds: [eventEmbed] });
+            channel.send({ content: '', embeds: [eventEmbed] }); //@everyone
         }
         
     },
