@@ -67,7 +67,7 @@ module.exports = {
 };
 
         // Reminder message function
-        function sendReminder(channel, eventName, eventLocation, eventDate, eventTime) {
+        function sendReminder(channel, eventName, eventLocation, eventDate, eventTime,eventId) {
             const reminderEmbed = new EmbedBuilder()
               .setColor('#0099ff') // Fancy blue color, you can change this to any hex color
               .setTitle(`🎉 Upcoming Event: ${eventName}! 🎉`)
@@ -84,7 +84,7 @@ module.exports = {
           }
 
         // Notifier message function
-        function sendEventStartingNow(channel, eventName, eventLocation) {
+        function sendEventStartingNow(channel, eventName, eventLocation,eventId) {
             const eventEmbed = new EmbedBuilder()
                 .setColor('#FF4500')
                 .setTitle(`🚨 Event **${eventName}** is Starting Now! 🚨`)

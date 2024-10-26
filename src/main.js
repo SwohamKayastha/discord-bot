@@ -74,6 +74,7 @@ client.on("interactionCreate", async (interaction) => {
         // Schedule the event reminder
         eventNotifier.scheduleEventReminder(client, channelId, eventName, eventLocation, eventDate, eventTime, interaction, eventId);
 
+
         // Store the event details in the scheduledEvents array
         scheduledEvents.push({
         id: eventId,
