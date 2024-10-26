@@ -3,11 +3,14 @@ const { EmbedBuilder,
  } = require('discord.js');
 const schedule = require('node-schedule');
 
+// Store scheduled jobs by event ID
+const scheduledJobs = {};
+
 module.exports = {
-    scheduleEventReminder: function(client, channelId, eventName, eventLocation, eventDate, eventTime) {
+    scheduleEventReminder: function(client, channelId, eventName, eventLocation, eventDate, eventTime, interaction, eventId) {
         // Combine event date and time to create a full date object
         const eventDateTime = new Date(`${eventDate}T${eventTime}:00`);
-        if (isNaN(eventDateTime)) {
+        if (isNaN(eventDateTime.getTime())) {
             return interaction.reply({ content: 'Invalid date or time format. Ensure the format is YYYY-MM-DD HH:mm.', ephemeral: true });
         }
 
@@ -19,11 +22,17 @@ module.exports = {
         // Schedule the reminder (e.g., 30 minutes before the event)
         const reminderTime = new Date(eventDateTime.getTime() - 1 * 60000);  // 30 minutes before
 
-        // Schedule the actual reminder
-        schedule.scheduleJob(reminderTime, function() {
 
+        // Acknowledge the user that the event is scheduled
+        interaction.reply({ 
+            content: `Event **${eventName}** has been registered with ID **${eventId}**! A reminder will be sent **30 minutes** before the event starts.`, 
+            ephemeral: true 
+        });
+
+        // Schedule the actual reminder
+        const reminderJob = schedule.scheduleJob(reminderTime, function() {
+        
             const channel = client.channels.cache.get(channelId); // Replace with the appropriate channel ID
-      
             if (channel) {
                 sendReminder(channel, eventName, eventLocation, eventDate, eventTime);
             } else {
@@ -32,7 +41,7 @@ module.exports = {
         });
 
         // Schedule the event notification at the actual event time
-        schedule.scheduleJob(eventDateTime, function() {
+        const eventJob = schedule.scheduleJob(eventDateTime, function() {
             const channel = client.channels.cache.get(channelId);
             if (channel) {
                 sendEventStartingNow(channel, eventName, eventLocation);
@@ -41,6 +50,21 @@ module.exports = {
             }
         });
 
+        // Store both jobs in the scheduledJobs object with eventId as the key
+        scheduledJobs[eventId] = { reminderJob, eventJob }
+    },
+        // Function to cancel scheduled jobs
+        cancelEvent: function(eventId) {
+            const jobs = scheduledJobs[eventId];
+            if (jobs) {
+            if (jobs.reminderJob) jobs.reminderJob.cancel();
+            if (jobs.eventJob) jobs.eventJob.cancel();
+            delete scheduledJobs[eventId]; // Clean up the stored reference
+            return true;
+             }
+             return false;
+         }
+};
 
         // Reminder message function
         function sendReminder(channel, eventName, eventLocation, eventDate, eventTime) {
@@ -76,5 +100,4 @@ module.exports = {
             channel.send({ content: '', embeds: [eventEmbed] }); //@everyone
         }
         
-    },
-};
+    

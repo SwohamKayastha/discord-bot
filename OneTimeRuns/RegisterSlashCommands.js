@@ -86,6 +86,13 @@ const commands = [
     description: 'Input the detail of the event',
     options: [
       {
+        name: 'id',
+        description: 'sets the event id',
+        type: ApplicationCommandOptionType.String,
+        required: true,
+
+      },
+      {
         name: 'event_name',
         description: 'Name of the event to add',
         type: ApplicationCommandOptionType.String,
@@ -110,6 +117,18 @@ const commands = [
         required: true,
       },
       
+    ],
+  },
+  {
+    name: 'removeevent',
+    description: 'removes the scheduled event',
+    options: [
+      {
+        name: 'id',
+        description: 'removes the scheduled event id',
+        type: ApplicationCommandOptionType.String,
+        required: true,
+      },
     ],
   },
 ];
