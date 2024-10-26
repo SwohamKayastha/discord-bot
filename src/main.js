@@ -29,8 +29,8 @@ const client = new Client({
  
 });
 
-const ALLOWED_ROLE_ID = '1299084955900448819';  
-const channelId = '1297881891097284608'; // Replace with the ID of the channel where reminders should be sent
+const ALLOWED_ROLE_ID = '1299292137682112554';  
+const channelId = '1298881128186384466'; // Replace with the ID of the channel where reminders should be sent
 
 
 // Store scheduled events
@@ -94,8 +94,8 @@ client.on("interactionCreate", async (interaction) => {
           return interaction.reply({ content: `No event found with ID **${eventId}**.`, ephemeral: true });
         }
         
-         // Remove event from scheduledEvents
-         const removedEvent = scheduledEvents.splice(eventIndex, 1)[0];
+        // Remove event from scheduledEvents
+        const removedEvent = scheduledEvents.splice(eventIndex, 1)[0];
 
         // Cancel the scheduled jobs for this event ID
         const isCanceled = eventNotifier.cancelEvent(eventId);
@@ -113,7 +113,6 @@ client.on("interactionCreate", async (interaction) => {
          }
        }
     }
-
      catch (error) {
       console.log(error);
       }
