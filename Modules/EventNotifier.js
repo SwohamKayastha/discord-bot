@@ -20,7 +20,7 @@ module.exports = {
         }
 
         // Schedule the reminder (e.g., 30 minutes before the event)
-        const reminderTime = new Date(eventDateTime.getTime() - 1 * 60000);  // 30 minutes before
+        const reminderTime = new Date(eventDateTime.getTime() - 30 * 60000);  // 30 minutes before
 
 
         // Acknowledge the user that the event is scheduled
