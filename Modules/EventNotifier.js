@@ -80,7 +80,7 @@ module.exports = {
               .setTimestamp(); // Adds a timestamp of when the message was sent
             
             // Send the embed to the specified channel
-            channel.send({ content: '', embeds: [reminderEmbed]}); //@everyone
+            channel.send({ content: '@everyone', embeds: [reminderEmbed]});
           }
 
         // Notifier message function
@@ -97,7 +97,7 @@ module.exports = {
                 .setTimestamp(); // Adds the current timestamp when the event is starting
         
             // Send the embed to the specified channel
-            channel.send({ content: '', embeds: [eventEmbed] }); //@everyone
+            channel.send({ content: '@everyone', embeds: [eventEmbed] });
         }
         
     

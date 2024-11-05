@@ -131,6 +131,10 @@ const commands = [
       },
     ],
   },
+  {
+    name: 'showevents',
+    description: 'Displays all the registered events',
+  },
 ];
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);

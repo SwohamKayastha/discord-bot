@@ -50,7 +50,7 @@ client.on("interactionCreate", async (interaction) => {
       // Checks for the required role
       const hasRole = interaction.member.roles.cache.has(ALLOWED_ROLE_ID);
         if (!hasRole) {
-          return interaction.reply("You don't have permission to set notifications.");
+          return interaction.reply({ content: "You don't have permission to set notifications." , ephemeral:true });
       }
       
       interactionshandler(interaction)
@@ -85,6 +85,7 @@ client.on("interactionCreate", async (interaction) => {
        });
       }
 
+      // Remove Event Code
       if (commandName === 'removeevent') {
         const eventId = interaction.options.getString('id');
   
@@ -113,6 +114,31 @@ client.on("interactionCreate", async (interaction) => {
             });
          }
        }
+
+      // Displaying registered events
+      if (commandName === 'showevents') {
+        console.log("Show Events command triggered");
+        if (scheduledEvents.length === 0) {
+          return interaction.reply({ content: 'No events are currently registered.', ephemeral: true });
+        }
+  
+        // Create the embed message for the event list
+        const eventEmbed = new EmbedBuilder()
+        .setColor('#A0522D') // Use a cool color scheme
+        .setTitle('📅 Upcoming Events')
+        .setDescription('Here’s a list of all upcoming events that is registered:')
+        .setTimestamp();
+
+        // Add each event as a field
+        scheduledEvents.forEach((event, index) => {
+          eventEmbed.addFields({
+            name: `🎉 **${index + 1}. ${event.eventName}**`,
+            value: `**📍 Location:** ${event.eventLocation}\n**📅 Date:** ${event.eventDate}\n**🕒 Time:** ${event.eventTime}\n**🆔 ID:** ${event.id}\n━━━━━━━━━━━━━━━━━━━`,
+          });
+        });
+
+      await interaction.reply({ embeds: [eventEmbed], ephemeral: true });
+      }
     }
      catch (error) {
       console.log(error);
