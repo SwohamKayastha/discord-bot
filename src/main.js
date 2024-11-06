@@ -72,17 +72,19 @@ client.on("interactionCreate", async (interaction) => {
         }
     
         // Schedule the event reminder
-        eventNotifier.scheduleEventReminder(client, channelId, eventName, eventLocation, eventDate, eventTime, interaction, eventId);
+        const is_registered = eventNotifier.scheduleEventReminder(client, channelId, eventName, eventLocation, eventDate, eventTime, interaction, eventId);
 
 
         // Store the event details in the scheduledEvents array
-        scheduledEvents.push({
-        id: eventId,
-        eventName,
-        eventLocation,
-        eventDate,
-        eventTime,
-       });
+        if (is_registered){
+              scheduledEvents.push({
+              id: eventId,
+              eventName,
+              eventLocation,
+              eventDate,
+              eventTime,
+            });  
+        }
       }
 
       // Remove Event Code
@@ -117,7 +119,6 @@ client.on("interactionCreate", async (interaction) => {
 
       // Displaying registered events
       if (commandName === 'showevents') {
-        console.log("Show Events command triggered");
         if (scheduledEvents.length === 0) {
           return interaction.reply({ content: 'No events are currently registered.', ephemeral: true });
         }

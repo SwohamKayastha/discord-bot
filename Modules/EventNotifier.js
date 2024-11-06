@@ -11,12 +11,14 @@ module.exports = {
         // Combine event date and time to create a full date object
         const eventDateTime = new Date(`${eventDate}T${eventTime}:00`);
         if (isNaN(eventDateTime.getTime())) {
-            return interaction.reply({ content: 'Invalid date or time format. Ensure the format is YYYY-MM-DD HH:mm.', ephemeral: true });
+            interaction.reply({ content: 'Invalid date or time format. Ensure the format is YYYY-MM-DD HH:mm.', ephemeral: true });
+            return;
         }
 
         const now = new Date();
         if (eventDateTime < now) {
-            return interaction.reply({ content: 'The event date and time must be in the future.', ephemeral: true });
+            interaction.reply({ content: 'The event date and time must be in the future.', ephemeral: true });
+            return;
         }
 
         // Schedule the reminder (e.g., 30 minutes before the event)
@@ -49,9 +51,11 @@ module.exports = {
                 console.error(`Channel not found with ID: ${channelId}. Please verify the ID and bot permissions.`);
             }
         });
-
+        
         // Store both jobs in the scheduledJobs object with eventId as the key
         scheduledJobs[eventId] = { reminderJob, eventJob }
+
+        return true;
     },
         // Function to cancel scheduled jobs
         cancelEvent: function(eventId) {
